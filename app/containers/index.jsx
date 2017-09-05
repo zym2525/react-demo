@@ -1,10 +1,9 @@
 import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import LocalStore from '../util/LocalStore'
-import { CITYNAME } from '../config/localStoreKey'
-import * as userInfoActionsFromOtherFile from '../actions/userinfo'
+import A from '../containers/A'
+import Left from '../containers/Left/left.jsx'
+
+import './index.less'
 
 class App extends React.Component {
   constructor(props, context){
@@ -16,7 +15,11 @@ class App extends React.Component {
   }
   render(){
     return(
-      <div>
+      <div className="wapper">
+        <nav className="Logo"></nav>
+        <div className="content clearfix">
+          <Left/>
+        </div>
         {
           this.state.initDone
           ? this.props.children
@@ -26,31 +29,8 @@ class App extends React.Component {
     )
   }
   componentDidMount(){
-    let cityName = LocalStore.getItem(CITYNAME)
-    if(cityName == null){
-      cityName = '北京'
-    }
-    this.props.userInfoActions.update({
-      cityName:cityName
-    })
-
-    //
     this.setState({initDone:true})
   }
 }
 
-
-function mapStateToProps(state){
-  return {
-
-  }
-}
-function mapDispatchToProps(dispatch){
-  return {
-    userInfoActions: bindActionCreators(userInfoActionsFromOtherFile, dispatch)
-  }
-}
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App)
+export default App
