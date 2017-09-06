@@ -2,7 +2,7 @@ import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import Page from '../../components/Page/page.jsx'
 
-import './index.less'
+import '../../static/css/commonList.less'
 
 class News extends React.Component {
     constructor(props, context){

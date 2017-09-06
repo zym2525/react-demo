@@ -18,8 +18,8 @@ class Left extends React.Component {
                 {
                     this.state.isLogin
                     ? <div className="user clearfix">
-                        <span className="fl">user</span>
-                        <b className="fl">我我</b>
+                        <span className="fl">超级管理员</span>
+                        <b className="fl">注销</b>
                     </div>
                     :  <h2 className="title">left</h2>
                 }
