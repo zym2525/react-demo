@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom'
 import { hashHistory } from 'react-router'
 
 
-
 import './static/css/common.less'
 
 

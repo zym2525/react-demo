@@ -1,6 +1,6 @@
 import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
-import A from '../containers/A'
+import News from '../containers/News'
 import Left from '../containers/Left/left.jsx'
 
 import './index.less'
@@ -18,13 +18,17 @@ class App extends React.Component {
       <div className="wapper">
         <nav className="Logo"></nav>
         <div className="content clearfix">
-          <Left/>
+            <Left/>
+            <div className="right">
+                <div className="right-box">
+                    {
+                        this.state.initDone
+                            ? this.props.children
+                            :<div> Loading </div>
+                    }
+                </div>
+            </div>
         </div>
-        {
-          this.state.initDone
-          ? this.props.children
-          :<div> Loading </div>
-        }
       </div>
     )
   }

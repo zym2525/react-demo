@@ -4,6 +4,8 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import TextField from 'material-ui/TextField';
 import Checkbox from 'material-ui/Checkbox';
 import FlatButton from 'material-ui/FlatButton';
+import { hashHistory } from 'react-router'
+
 
 import './login.less'
 class Login extends React.Component {
@@ -12,7 +14,9 @@ class Login extends React.Component {
         this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this)
         this.state = {
             checked: false,
+            isLogin:false
         }
+
     }
 
     render() {
@@ -32,6 +36,9 @@ class Login extends React.Component {
                         floatingLabelShrinkStyle={{
                             fontSize:'16px'
                         }}
+                        underlineFocusStyle={{
+                            borderColor:'#333'
+                        }}
                         style={{
                             width:'100%'
                         }}
@@ -48,19 +55,28 @@ class Login extends React.Component {
                         inputStyle={{
                             color:'#333',
                         }}
+                        underlineFocusStyle={{
+                            borderColor:'#333'
+                        }}
                         style={{
                             width:'100%'
                         }}
                         type="password"
                     />
                 </MuiThemeProvider>
-                <div className="login-btn clearfix">
+                <div className="login-btn">
                     <MuiThemeProvider>
                         <Checkbox
-                            className="fl"
+                            label="记住我"
                             style={{
-                                width:'auto',
-                                'margin-top':'6px'
+                                width:'100px',
+                                'marginTop':'6px'
+                            }}
+                            labelStyle={{
+                                'fontSize':'12px'
+                            }}
+                            iconStyle={{
+                                fill:'#333'
                             }}
                             checked={this.state.checked}
                             onCheck={this.updateCheck.bind(this)}
@@ -69,11 +85,13 @@ class Login extends React.Component {
                     <MuiThemeProvider>
                         <FlatButton
                             label="登录"
-                            className="fl"
                             style={{
                                 width:'auto',
-                                'border':'1px solid #333'
+                                'border':'1px solid #333',
+                                'marginTop':'6px',
+                                'lineHeight':'34px'
                             }}
+                            onClick={this.loginFn.bind(this)}
                         />
                     </MuiThemeProvider>
                 </div>
@@ -86,6 +104,19 @@ class Login extends React.Component {
                 checked: !oldState.checked,
             };
         });
+    }
+    loginFn(){
+        if(true){
+            this.setState((oldState)=>{
+                hashHistory.push('/annonce');
+                return {
+                    isLogin:true
+                };
+            })
+        }
+    };
+    componentDidUpdate(){
+        this.props.handleLogin(this.state.isLogin)
     }
 }
 export default Login
