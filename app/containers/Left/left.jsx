@@ -2,6 +2,7 @@ import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import Login from '../../components/Login/login.jsx';
 import MenuList from '../../components/List/list.jsx';
+import localStore from '../../util/localStore';
 
 import './left.less';
 class Left extends React.Component {
@@ -25,7 +26,7 @@ class Left extends React.Component {
                 }
                 {
                     this.state.isLogin
-                    ? <MenuList/>
+                    ? <MenuList handleLogin={this.handleLogin.bind(this)}/>
                     : <Login handleLogin={this.handleLogin.bind(this)}/>
                 }
             </div>
@@ -33,6 +34,20 @@ class Left extends React.Component {
     }
     handleLogin(isLogin){
         if(isLogin){
+            this.setState({
+                isLogin:true
+            });
+        }else{
+            this.setState({
+                isLogin:true
+            });
+        }
+    }
+    componentWillMount(){
+        let username= localStore.getItem('username');
+        if(username==null){
+            return;
+        }else{
             this.setState({
                 isLogin:true
             });

@@ -1,5 +1,6 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import './fileUpload.less'
 
 class FileUpload extends React.Component {
     constructor(props, context) {
@@ -7,12 +8,18 @@ class FileUpload extends React.Component {
         this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
 
     }
-
     render() {
         return (
-            <div>模板上传</div>
+            <div className="fileUpload">
+                <div className="fileUpload-title">发布模板文件</div>
+                <form id="uploads">
+                    <input type="file" name="upload" value="" id="uploads_upload1"/>
+                    <input type="file" name="upload" value="" id="uploads_upload2"/>
+                    <input type="file" name="upload" value="" id="uploads_upload3"/>
+                    <input type="submit" id="uploads_0" value="提交上传"/>
+                </form>
+            </div>
         )
     }
-
 }
 export default FileUpload;

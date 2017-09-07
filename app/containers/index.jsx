@@ -2,6 +2,8 @@ import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import News from '../containers/News'
 import Left from '../containers/Left/left.jsx'
+import localStore from '../util/localStore';
+import { hashHistory } from 'react-router'
 
 import './index.less'
 
@@ -32,6 +34,12 @@ class App extends React.Component {
       </div>
     )
   }
+    componentWillMount(){
+        let username= localStore.getItem('username');
+        if(username==null) {
+            hashHistory.push('/');
+        }
+    }
   componentDidMount(){
     this.setState({initDone:true})
   }

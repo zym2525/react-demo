@@ -4,8 +4,9 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import TextField from 'material-ui/TextField';
 import Checkbox from 'material-ui/Checkbox';
 import FlatButton from 'material-ui/FlatButton';
-import { hashHistory } from 'react-router'
-
+import { hashHistory } from 'react-router';
+import {api} from '../../util/common';
+import { postData } from '../../fetch/postData';
 
 import './login.less'
 class Login extends React.Component {
@@ -16,7 +17,6 @@ class Login extends React.Component {
             checked: false,
             isLogin:false
         }
-
     }
 
     render() {
@@ -106,6 +106,7 @@ class Login extends React.Component {
         });
     }
     loginFn(){
+        postData(api+'/dhy/user/login',{loginName:1,password:1});
         if(true){
             this.setState((oldState)=>{
                 hashHistory.push('/annonce');
@@ -115,6 +116,9 @@ class Login extends React.Component {
             })
         }
     };
+    componentDidMount(){
+        console.log(api)
+    }
     componentDidUpdate(){
         this.props.handleLogin(this.state.isLogin)
     }

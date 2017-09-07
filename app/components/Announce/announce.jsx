@@ -9,7 +9,6 @@ class Announce extends React.Component {
         this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
 
     }
-
     render() {
         return (
            <div className="announce">
