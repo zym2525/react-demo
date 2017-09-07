@@ -1,7 +1,7 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 
-import './audit.less';
+import '../../static/css/commonList.less'
 class Audit extends React.Component {
     constructor(props, context) {
         super(props, context);
