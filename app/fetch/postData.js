@@ -2,19 +2,22 @@
  * Created by Administrator on 2017/9/7.
  */
 import {post} from './post';
-export async function postData(url,data,successfn, isLoadingShow){
+export function postData(url,data,successfn, isLoadingShow){
     if (isLoadingShow == undefined || isLoadingShow == true) {
         //alertLoading();
     }
-    try{
-        var result=await post(url,data);
-        console.log(result)
-    }catch(error){
-        if (error.length > 0) {
-            alert(error);
+    let result= post(url,data);
+    result.then(res=>{
+       return res.text();
+    }).then(text=>{
+        let reData=JSON.parse(JSON.parse(text));
+        if(reData.retCode==0){
+            successfn&&successfn(reData);
+        }else{
+            alert(reData.retMsg);
         }
-        else {
-            alert('出错了！请刷新页面试试~');
-        }
-    }
+    }).catch(err=>{
+        alert('出错了！请刷新页面试试~')
+    })
 }
+

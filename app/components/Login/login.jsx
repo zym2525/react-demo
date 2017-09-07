@@ -15,7 +15,9 @@ class Login extends React.Component {
         this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this)
         this.state = {
             checked: false,
-            isLogin:false
+            isLogin:false,
+            username:'',
+            password:''
         }
     }
 
@@ -42,6 +44,7 @@ class Login extends React.Component {
                         style={{
                             width:'100%'
                         }}
+                        onChange={this.changUser.bind(this)}
                     />
                 </MuiThemeProvider>
                 <MuiThemeProvider>
@@ -62,6 +65,7 @@ class Login extends React.Component {
                             width:'100%'
                         }}
                         type="password"
+                        onChange={this.changPassword.bind(this)}
                     />
                 </MuiThemeProvider>
                 <div className="login-btn">
@@ -106,18 +110,43 @@ class Login extends React.Component {
         });
     }
     loginFn(){
-        postData(api+'/dhy/user/login',{loginName:1,password:1});
-        if(true){
+        let {
+            username,
+            password
+        }=this.state;
+        if(username==''&&password==''){
+            alert('请输入用户名密码！');
+            return;
+        }else if(username==''){
+            alert('请输入用户名！');
+            return;
+        }else if(password==''){
+            alert('请输入密码！');
+            return;
+        }
+        let data={
+            loginName:username,
+            password:password
+        };
+        postData(api+'/dhy/user/login',data,(result)=>{
+            console.log(result)
             this.setState((oldState)=>{
                 hashHistory.push('/annonce');
                 return {
                     isLogin:true
                 };
             })
-        }
-    };
-    componentDidMount(){
-        console.log(api)
+        });
+    }
+    changUser({target}){
+        this.setState({
+            username:target.value
+        });
+    }
+    changPassword({target}){
+        this.setState({
+            password:target.value
+        });
     }
     componentDidUpdate(){
         this.props.handleLogin(this.state.isLogin)
