@@ -20,3 +20,65 @@ body{
   height: 100%;
   background-color: #f2f2f2;
 }
+.loadingMask{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top:0;
+  left: 0;
+  z-index: 99999999999;
+  img{
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    left: 50%;
+    top: 50%;
+    margin-left: -25px;
+    margin-top: -25px;
+  }
+}
+.hint{
+  width:390px;
+  padding:0 20px;
+  position: relative;
+  .alertIcon {
+    width: 64px;
+    height: 64px;
+    margin: 50px auto 36px;
+    background-image: url('../../image/icon_14.png');
+  }
+  .alertText {
+    font-size: 18px;
+    margin-bottom: 36px;
+    color: #34495e;
+    text-align: center;
+  }
+  .alertBtn {
+    width: 210px;
+    margin: 0 auto 28px;
+    .confirm,.cancel{
+      width: 100px;
+      height: 40px;
+      text-align: center;
+      line-height: 40px;
+      color: #fff;
+      border-radius: 2px;
+      background-color: #3499da;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .cancel{
+      background-color: #b8c4ce;
+    }
+  }
+  .closeIcon {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: url('../../image/closeIcon.png') no-repeat center;
+    padding: 10px;
+    right: 2px;
+    top: 2px;
+    cursor: pointer;
+  }
+}

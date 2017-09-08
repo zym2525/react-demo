@@ -2,7 +2,7 @@ import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import News from '../containers/News'
 import Left from '../containers/Left/left.jsx'
-import localStore from '../util/localStore';
+import {getCookie} from  '../util/cookie';
 import { hashHistory } from 'react-router'
 
 import './index.less'
@@ -35,8 +35,8 @@ class App extends React.Component {
     )
   }
     componentWillMount(){
-        let username= localStore.getItem('username');
-        if(username==null) {
+        let username= getCookie('username');
+        if(username==null||username=='') {
             hashHistory.push('/');
         }
     }

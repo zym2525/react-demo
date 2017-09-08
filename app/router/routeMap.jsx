@@ -2,7 +2,7 @@ import React from 'react'
 import { Router, Route, IndexRoute} from 'react-router'
 
 import App from '../containers'
-import News from '../containers/News'
+import Theme from '../containers/Theme/theme.jsx'
 import Announce from '../components/Announce/announce.jsx'
 import Manage from '../components/Management/management.jsx'
 import Audit from '../components/Audit/audit.jsx'
@@ -17,7 +17,7 @@ class RouteMap extends React.Component {
     return (
       <Router history = {this.props.history}>
         <Route path="/" component = {App}>
-            <IndexRoute  component = {News}/>
+            <IndexRoute  component = {Theme}/>
             <Route path="/annonce" component={Announce}/>
             <Route path="/manage" component={Manage}/>
             <Route path="/audit" component={Audit}/>
