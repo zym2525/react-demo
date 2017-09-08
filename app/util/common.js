@@ -1,6 +1,7 @@
 /**
  * Created by Administrator on 2017/9/7.
  */
+//https://rsuitejs.com/getting-started
 import React from 'react';
 import Layer from 'react-layer';
 let imgUrl = require('../image/loading1.gif');

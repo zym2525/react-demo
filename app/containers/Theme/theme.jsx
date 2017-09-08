@@ -27,6 +27,9 @@ class Theme extends React.Component {
         });
     }
     componentDidMount(){
+        this.getList();
+    }
+    getList(){
         let {
             currentPage,
             pageSize
