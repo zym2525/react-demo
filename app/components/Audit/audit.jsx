@@ -1,9 +1,7 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import Page from '../Page/page.jsx'
 import '../../static/css/commonList.less'
-
-
+import { Pagination } from 'antd';
 import '../../static/css/commonList.less'
 
 import './audit.less'
@@ -11,7 +9,10 @@ class Audit extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
-
+        this.state={
+            currentPage:0,
+            pageSize:10
+        };
     }
 
     render() {
@@ -33,10 +34,14 @@ class Audit extends React.Component {
                         <div className="status">待审核</div>
                     </dd>
                 </dl>
-                <Page/>
+                <div className="pagination-wrapper">
+                    <Pagination current={this.state.currentPage+1} total={100} pageSize={this.state.pageSize} onChange={this.handleChange.bind(this)}/>
+                </div>
             </div>
         )
     }
+    handleChange(){
 
+    }
 }
 export default Audit;

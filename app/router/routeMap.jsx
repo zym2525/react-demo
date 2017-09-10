@@ -9,6 +9,8 @@ import Audit from '../components/Audit/audit.jsx'
 import History from '../components/History/history.jsx'
 import Finance from '../components/Finance/finance.jsx'
 import FileUpload from '../components/FileUpload/fileUpload.jsx'
+import ThemeInfo from '../components/ThemeInfo/ThemeInfo.jsx'
+import UseForm from '../components/Form/form.jsx'
 import NotFound from '../containers/404'
 
 
@@ -19,11 +21,13 @@ class RouteMap extends React.Component {
         <Route path="/" component = {App}>
             <IndexRoute  component = {Theme}/>
             <Route path="/annonce" component={Announce}/>
+            <Route path="/themeInfo" component={ThemeInfo}/>
             <Route path="/manage" component={Manage}/>
             <Route path="/audit" component={Audit}/>
             <Route path="/history" component={History}/>
             <Route path="/finance" component={Finance}/>
             <Route path="/fileUpload" component={FileUpload}/>
+            <Route path="/form" component={UseForm}/>
             <Route path="/*" component={NotFound}/>
         </Route>
       </Router>

@@ -11,23 +11,23 @@ class Theme extends React.Component {
         this.state={
             themes:[],
             currentPage:0,
-            pageSize:9
+            pageSize:10
         };
     }
     render() {
         return (
-            <News list={this.state.themes} handleItemClick={this.getThemeInfo.bind(this)}/>
+            <News list={this.state.themes} papeChange={this.papeChange.bind(this)} current={this.state.currentPage+1}/>
         );
-    }
-    getThemeInfo(themeCode){
-        //获取公告详情
-        let data={themeCode:themeCode};
-        postData(api+'/dhy/theme/getThemeInfo',data,(result)=>{
-            console.log(result)
-        });
     }
     componentDidMount(){
         this.getList();
+    }
+    papeChange(page){
+        this.setState({
+            currentPage:page-1
+        },()=>{
+            this.getList();
+        });
     }
     getList(){
         let {

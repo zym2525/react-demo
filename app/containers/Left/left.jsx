@@ -2,6 +2,7 @@ import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import Login from '../../components/Login/login.jsx';
 import MenuList from '../../components/List/list.jsx';
+import UseMenu from '../../components/UseMenu/UseMenu.jsx';
 import {getCookie,removeCookies} from  '../../util/cookie';
 import { postData } from '../../fetch/postData';
 import {api} from '../../util/common';
@@ -15,7 +16,8 @@ class Left extends React.Component {
         this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
         this.state={
             isLogin:false,
-            username:''
+            username:'',
+            accountType:getCookie('accountType')
         };
     }
     render() {
@@ -31,22 +33,26 @@ class Left extends React.Component {
                 }
                 {
                     this.state.isLogin
-                    ? <MenuList handleLogin={this.handleLogin.bind(this)}/>
+                    ? this.state.accountType==1
+                        ?<MenuList/>
+                        :<UseMenu/>
                     : <Login handleLogin={this.handleLogin.bind(this)}/>
                 }
             </div>
         )
     }
-    handleLogin(isLogin,username){
+    handleLogin(isLogin,username,accountType){
         if(isLogin){
             this.setState({
                 isLogin:true,
-                username:username
+                username:username,
+                accountType:accountType
             });
         }else{
             this.setState({
                 isLogin:false,
-                username:''
+                username:'',
+                accountType:1
             });
         }
     }
@@ -55,15 +61,17 @@ class Left extends React.Component {
             isLogin:false,
             username:''
         });
-        removeCookies(['username','accountType']);
+        removeCookies(['username','accountType','accountCode']);
     }
     componentWillMount(){
         let username= getCookie('username');
+        let accountType= getCookie('accountType');
         if(username==null||username==''){
         }else{
             this.setState({
                 isLogin:true,
-                username:username
+                username:username,
+                accountType:accountType
             });
         }
     }

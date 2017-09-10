@@ -3,7 +3,8 @@ import PureRenderMixin from 'react-addons-pure-render-mixin'
 import News from '../containers/News'
 import Left from '../containers/Left/left.jsx'
 import {getCookie} from  '../util/cookie';
-import { hashHistory } from 'react-router'
+import { hashHistory } from 'react-router';
+import '../static/css/antd.min.css'
 
 import './index.less'
 

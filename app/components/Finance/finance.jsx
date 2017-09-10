@@ -3,7 +3,11 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
-
+import {getLocalTime} from '../../util/common'
+import {getCookie} from  '../../util/cookie';
+import { hashHistory } from 'react-router';
+import {api} from '../../util/common';
+import { postData } from '../../fetch/postData';
 
 import {textFieldStyle} from '../../config/style.js'
 import './finance.less'
@@ -12,6 +16,11 @@ class Finance extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
+        this.state={
+            feeList:[],
+            currentPage:0,
+            pageSize:4
+        };
     }
 
     render() {
@@ -87,9 +96,35 @@ class Finance extends React.Component {
                         </ul>
                     </div>
                 </div>
+                {
+                    this.state.feeList.length>0
+                        ?''
+                        :<div>没有你要的数据</div>
+                }
             </div>
         )
     }
-
+    componentDidMount(){
+        if(getCookie('accountType')!=1){
+            hashHistory.push('/');
+            return;
+        }
+        let {
+            currentPage,
+            pageSize
+            }=this.state;
+        let data={
+            supplyName:getCookie('accountCode'),
+            currentPage:currentPage,
+            pageSize:pageSize
+        };
+        postData(api+'/dhy/fee/list',data,(result)=>{
+           // let themes=result.themes;
+            this.setState({
+                feeList:[]
+            });
+            console.log(result)
+        });
+    }
 }
 export default Finance;

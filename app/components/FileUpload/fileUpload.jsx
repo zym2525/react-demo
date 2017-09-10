@@ -1,6 +1,8 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import './fileUpload.less'
+import {getCookie} from  '../../util/cookie';
+import { hashHistory } from 'react-router';
 
 class FileUpload extends React.Component {
     constructor(props, context) {
@@ -20,6 +22,11 @@ class FileUpload extends React.Component {
                 </form>
             </div>
         )
+    }
+    componentWillMount(){
+        if(getCookie('accountType')!=1){
+            hashHistory.push('/');
+        }
     }
 }
 export default FileUpload;

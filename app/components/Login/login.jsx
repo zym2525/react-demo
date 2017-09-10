@@ -7,7 +7,7 @@ import FlatButton from 'material-ui/FlatButton';
 import { hashHistory } from 'react-router';
 import {api} from '../../util/common';
 import { postData } from '../../fetch/postData';
-import {setCookies} from  '../../util/cookie';
+import {setCookies,getCookie} from  '../../util/cookie';
 
 import './login.less'
 class Login extends React.Component {
@@ -18,7 +18,8 @@ class Login extends React.Component {
             checked: false,
             isLogin:false,
             username:'',
-            password:''
+            password:'',
+            accountType:getCookie('accountType')
         }
     }
 
@@ -132,15 +133,23 @@ class Login extends React.Component {
         };
         postData(api+'/dhy/user/login',data,(result)=>{
             this.setState((oldState)=>{
-                hashHistory.push('/annonce');
+                if(result.accountType==1){
+                    hashHistory.push('/annonce');
+                }else{
+                    hashHistory.push('/');
+                }
                 if(checked){
                     setCookies({
                         username:result.loginName,
                         accountType:result.accountType
                     });
                 }
+                setCookies({
+                    accountCode:result.accountCode
+                });
                 return {
-                    isLogin:true
+                    isLogin:true,
+                    accountType:result.accountType
                 };
             })
         });
@@ -156,8 +165,8 @@ class Login extends React.Component {
         });
     }
     componentDidUpdate(){
-        let {username,isLogin}=this.state;
-        this.props.handleLogin(isLogin,username);
+        let {username,isLogin,accountType}=this.state;
+        this.props.handleLogin(isLogin,username,accountType);
     }
 }
 export default Login
