@@ -11,12 +11,13 @@ class Theme extends React.Component {
         this.state={
             themes:[],
             currentPage:0,
-            pageSize:10
+            pageSize:10,
+            total:0
         };
     }
     render() {
         return (
-            <News list={this.state.themes} papeChange={this.papeChange.bind(this)} current={this.state.currentPage+1}/>
+            <News total={this.state.total} list={this.state.themes} papeChange={this.papeChange.bind(this)} current={this.state.currentPage+1}/>
         );
     }
     componentDidMount(){
@@ -35,14 +36,15 @@ class Theme extends React.Component {
             pageSize
             }=this.state;
         let data={
-            type:0,
+            type:11,
             currentPage:currentPage,
             pageSize:pageSize
         };
         postData(api+'/dhy/theme/list',data,(result)=>{
             let themes=result.themes;
             this.setState({
-                themes:themes
+                themes:themes,
+                total:result.total
             });
             console.log(result)
         });

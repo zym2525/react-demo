@@ -39,7 +39,9 @@ class Announce extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
-
+        this.state={
+            themeCode:''
+        }
     }
     render() {
         const { getFieldDecorator } = this.props.form;
@@ -75,21 +77,23 @@ class Announce extends React.Component {
                            <TextArea autosize={{ minRows: 6 }} name="content"/>
                        )}
                    </FormItem>
-                   <FormItem
-                       {...formItemLayout}
-                       label="上传文件"
-                   >
-                       {getFieldDecorator('upload', {
-                           valuePropName: 'fileList',
-                           getValueFromEvent: this.normFile,
-                       })(
-                           <Upload name={username} action={api+"/dhy/background/fileOperate/upload"} listType="text" data={this.getData.bind(this)}>
-                               <Button>
-                                   <Icon type="upload" />选择文件
-                               </Button>
-                           </Upload>
-                       )}
-                   </FormItem>
+                   {
+                       this.state.themeCode=='create'&&<FormItem
+                           {...formItemLayout}
+                           label="上传文件"
+                       >
+                           {getFieldDecorator('upload', {
+                               valuePropName: 'fileList',
+                               getValueFromEvent: this.normFile,
+                           })(
+                               <Upload name='file' action={api+"/dhy/background/fileOperate/upload"} listType="text" data={this.getData.bind(this)}>
+                                   <Button>
+                                       <Icon type="upload" />选择文件
+                                   </Button>
+                               </Upload>
+                           )}
+                       </FormItem>
+                   }
                    <FormItem {...tailFormItemLayout}>
                        <Button type="primary" htmlType="submit">发布</Button>
                    </FormItem>
@@ -100,6 +104,13 @@ class Announce extends React.Component {
     componentWillMount(){
         if(getCookie('accountType')!=1){
             hashHistory.push('/');
+            return;
+        }
+        const themeCode=this.props.params.id;
+        if(themeCode){
+            this.setState({
+                themeCode:themeCode
+            });
         }
     }
     handleSubmit(e){
@@ -107,47 +118,58 @@ class Announce extends React.Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                // console.log('Received values of form: ', values);
-                let data={
-                    title:values.annonceTitle,
-                    content:values.annonceContent||'',
-                    fileName:values['upload'][0]['name'],
-                    type:0,
-                    isTop:1,
-                    loginName:username
-                };
-                postData(api+'/dhy/theme/saveTheme',data,(result)=>{
-                    let modal = Modal.success({
-                        title: 'This is a notification message',
-                        content: 'This modal will be destroyed after 1 second',
-                    });
-                    setTimeout(() => modal.destroy(), 500);
-                });
+                if(this.state.themeCode=='create'){
+                    this.saveTheme(values);
+                }else{
+                    this.updateTheme(values);
+                }
             }
+        });
+    }
+    saveTheme(values){
+        let data={
+            title:values.annonceTitle,
+            content:values.annonceContent||'',
+            fileName:values['upload'][0]['name'],
+            type:11,
+            isTop:1,
+            loginName:username
+        };
+        data['fileId']=values['upload'][0]['response']['data']['id'];
+        postData(api+'/dhy/theme/saveTheme',data,(result)=>{
+            let modal = Modal.success({
+                title: '提示',
+                content: '发布成功',
+            });
+            setTimeout(() => modal.destroy(), 800);
+        });
+    }
+    updateTheme(values){
+        let data={
+            title:values.annonceTitle,
+            content:values.annonceContent||'',
+            themeCode:this.state.themeCode,
+            loginName:username
+        };
+        postData(api+'/dhy/theme/updateTheme',data,(result)=>{
+            let modal = Modal.success({
+                title: '提示',
+                content: '修改成功',
+            });
+            setTimeout(() => modal.destroy(), 800);
         });
     }
     normFile(e) {
         console.log('Upload event:', e);
-
-        //if (Array.isArray(e)) {
-        //    return e;
-        //}
-        //return e && e.fileList;
-        if(e.file.status=='done'){
-            let data={
-                fileType:0,
-                loginName:username,
-                uploadName:username
-            };
-            postData(api+'/dhy/background/fileOperate/upload',data,(result)=>{
-                return;
-            });
+        if (Array.isArray(e)) {
+            return e;
         }
+        return e && e.fileList;
     }
     getData(){
         return {
-            fileType:0,
-            loginName:username,
-            uploadName:username
+            fileType:11,
+            loginName:username
         }
     }
 }

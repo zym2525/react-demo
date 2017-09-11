@@ -8,6 +8,7 @@ import {getCookie} from  '../../util/cookie';
 import { hashHistory } from 'react-router';
 import {api} from '../../util/common';
 import { postData } from '../../fetch/postData';
+import { Pagination } from 'antd';
 
 import {textFieldStyle} from '../../config/style.js'
 import './finance.less'
@@ -98,7 +99,7 @@ class Finance extends React.Component {
                 </div>
                 {
                     this.state.feeList.length>0
-                        ?''
+                        ?<Pagination current={this.state.currentPage+1} total={this.state.total} pageSize={this.state.pageSize} onChange={this.handleChange.bind(this)}/>
                         :<div>没有你要的数据</div>
                 }
             </div>
@@ -109,19 +110,30 @@ class Finance extends React.Component {
             hashHistory.push('/');
             return;
         }
+        this.getList();
+    }
+    handleChange(){
+        this.setState({
+            currentPage:page-1
+        },()=>{
+            this.getList();
+        });
+    }
+    getList(){
         let {
             currentPage,
             pageSize
             }=this.state;
         let data={
-            supplyName:getCookie('accountCode'),
+            supplyName:getCookie('username'),
             currentPage:currentPage,
             pageSize:pageSize
         };
         postData(api+'/dhy/fee/list',data,(result)=>{
-           // let themes=result.themes;
+            // let themes=result.themes;
             this.setState({
-                feeList:[]
+                feeList:[],
+                total:result.total
             });
             console.log(result)
         });

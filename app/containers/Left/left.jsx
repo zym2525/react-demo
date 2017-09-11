@@ -6,7 +6,7 @@ import UseMenu from '../../components/UseMenu/UseMenu.jsx';
 import {getCookie,removeCookies} from  '../../util/cookie';
 import { postData } from '../../fetch/postData';
 import {api} from '../../util/common';
-
+import { hashHistory } from 'react-router';
 
 import './left.less';
 
@@ -60,6 +60,8 @@ class Left extends React.Component {
         this.setState({
             isLogin:false,
             username:''
+        },()=>{
+            hashHistory.push('/');
         });
         removeCookies(['username','accountType','accountCode']);
     }

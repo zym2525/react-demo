@@ -2,10 +2,13 @@ import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import {getCookie} from  '../../util/cookie';
 import { hashHistory } from 'react-router';
-import { Form, Input, Tooltip, Upload,Button,Icon } from 'antd';
+import { Form, Input, Tooltip, Upload,Button,Icon,Radio } from 'antd';
 import './form.less';
 const { TextArea } = Input;
 const FormItem = Form.Item;
+const RadioButton = Radio.Button;
+const RadioGroup = Radio.Group;
+
 const formItemLayout = {
     labelCol: {
         xs: { span: 24 },
@@ -41,7 +44,7 @@ class UseForm extends React.Component {
         const { getFieldDecorator } = this.props.form;
         return (
             <div className="form">
-                <div className="common-title">宁波大红鹰学院非学历教育培训申请表</div>
+                <div className="common-title">title</div>
                 <Form onSubmit={this.handleSubmit.bind(this)}>
                     <FormItem
                         {...formItemLayout}
@@ -98,9 +101,63 @@ class UseForm extends React.Component {
                         hasFeedback
                     >
                         {getFieldDecorator('linknum', {
-                            rules: [{ required: true, message: '请输入联系人电话!', whitespace: true,pattern:'/\d+/' }]
+                            rules: [{ required: true, message: '请输入联系人电话!', whitespace: true,pattern:/\d+/ }]
                         })(
                             <Input placeholder="必填*" name="linknum"/>
+                        )}
+                    </FormItem>
+                    <FormItem
+                        {...formItemLayout}
+                        label="政府委托项目"
+                    >
+                        {getFieldDecorator('isGovernmentcommissionedprojects',{
+                            initialValue:'1'
+                        })(
+                            <RadioGroup onChange={this.handleRadioChange.bind(this)}>
+                                <Radio value='1'>是</Radio>
+                                <Radio value='0'>否</Radio>
+                            </RadioGroup>
+                        )}
+                    </FormItem>
+                    <FormItem
+                        {...formItemLayout}
+                        label="培训对象"
+                    >
+                        {getFieldDecorator('trainees',{
+                            initialValue:'0'
+                        })(
+                            <RadioGroup onChange={this.handleRadioChange.bind(this)}>
+                                <Radio value='0'>社会人员</Radio>
+                                <Radio value='1'>本校在校生</Radio>
+                            </RadioGroup>
+                        )}
+                    </FormItem>
+                    <FormItem
+                        {...formItemLayout}
+                        label="校外人员需要进入校园"
+                    >
+                        {getFieldDecorator('isOutofschoolpersonnelneedtoenterthecampus',{
+                            initialValue:'1'
+                        })(
+                            <RadioGroup onChange={this.handleRadioChange.bind(this)}>
+                                <Radio value='1'>是</Radio>
+                                <Radio value='0'>否</Radio>
+                            </RadioGroup>
+                        )}
+                    </FormItem>
+                    <FormItem
+                        {...formItemLayout}
+                        label={(
+                            <span>
+                              合作单位
+                            </span>
+                        )}
+                        hasFeedback
+                    >
+                        {getFieldDecorator('partner', {
+                            rules: [{ required: true, message: '请输入合作单位!', whitespace: true }]
+                        })(
+                            <Input placeholder="必填*" name="partner"/>
                         )}
                     </FormItem>
                 </Form>
@@ -126,6 +183,11 @@ class UseForm extends React.Component {
             return e;
         }
         return e && e.fileList;
+    }
+    handleRadioChange({target}){
+        this.props.form.setFieldsValue({
+            isGovernmentcommissionedprojects:target.value
+        });
     }
 }
 UseForm = Form.create({})(UseForm);

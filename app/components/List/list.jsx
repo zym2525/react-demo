@@ -18,7 +18,7 @@ class MenuList extends React.Component {
             <div className="list">
                 <MuiThemeProvider>
                     <List>
-                        <Link to="/annonce">
+                        <Link to="/annonce/create">
                             <ListItem primaryText="发布公告"/>
                         </Link>
                         <Link to="/manage">

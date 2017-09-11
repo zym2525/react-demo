@@ -20,14 +20,14 @@ class RouteMap extends React.Component {
       <Router history = {this.props.history}>
         <Route path="/" component = {App}>
             <IndexRoute  component = {Theme}/>
-            <Route path="/annonce" component={Announce}/>
-            <Route path="/themeInfo" component={ThemeInfo}/>
             <Route path="/manage" component={Manage}/>
             <Route path="/audit" component={Audit}/>
             <Route path="/history" component={History}/>
             <Route path="/finance" component={Finance}/>
             <Route path="/fileUpload" component={FileUpload}/>
             <Route path="/form" component={UseForm}/>
+            <Route path="/annonce/:id" component={Announce}/>
+            <Route path="/themeInfo/:id" component={ThemeInfo}/>
             <Route path="/*" component={NotFound}/>
         </Route>
       </Router>

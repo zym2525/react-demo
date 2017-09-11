@@ -134,7 +134,7 @@ class Login extends React.Component {
         postData(api+'/dhy/user/login',data,(result)=>{
             this.setState((oldState)=>{
                 if(result.accountType==1){
-                    hashHistory.push('/annonce');
+                    hashHistory.push('/annonce/create');
                 }else{
                     hashHistory.push('/');
                 }
