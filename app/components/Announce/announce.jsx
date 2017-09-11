@@ -1,9 +1,12 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import News from '../../containers/News'
-import { Form, Input, Tooltip, Upload,Button,Icon } from 'antd';
+import { Form, Input, Tooltip, Upload,Button,Icon,Modal } from 'antd';
 import {getCookie} from  '../../util/cookie';
 import { hashHistory } from 'react-router';
+import {api} from '../../util/common';
+import { postData } from '../../fetch/postData';
+
 const { TextArea } = Input;
 const FormItem = Form.Item;
 const formItemLayout = {
@@ -28,6 +31,8 @@ const tailFormItemLayout = {
         },
     },
 };
+const username=getCookie('username');
+
 
 import './announce.less'
 class Announce extends React.Component {
@@ -61,13 +66,13 @@ class Announce extends React.Component {
                        {...formItemLayout}
                        label={(
                             <span>
-                              公告标题
+                              公告内容
                             </span>
                         )}
                        hasFeedback
                    >
                        {getFieldDecorator('annonceContent',{})(
-                           <TextArea autosize={{ minRows: 6 }} />
+                           <TextArea autosize={{ minRows: 6 }} name="content"/>
                        )}
                    </FormItem>
                    <FormItem
@@ -78,7 +83,7 @@ class Announce extends React.Component {
                            valuePropName: 'fileList',
                            getValueFromEvent: this.normFile,
                        })(
-                           <Upload name="image" action="/upload.do" listType="text">
+                           <Upload name={username} action={api+"/dhy/background/fileOperate/upload"} listType="text" data={this.getData.bind(this)}>
                                <Button>
                                    <Icon type="upload" />选择文件
                                </Button>
@@ -101,16 +106,49 @@ class Announce extends React.Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                console.log('Received values of form: ', values);
+               // console.log('Received values of form: ', values);
+                let data={
+                    title:values.annonceTitle,
+                    content:values.annonceContent||'',
+                    fileName:values['upload'][0]['name'],
+                    type:0,
+                    isTop:1,
+                    loginName:username
+                };
+                postData(api+'/dhy/theme/saveTheme',data,(result)=>{
+                    let modal = Modal.success({
+                        title: 'This is a notification message',
+                        content: 'This modal will be destroyed after 1 second',
+                    });
+                    setTimeout(() => modal.destroy(), 500);
+                });
             }
         });
     }
     normFile(e) {
         console.log('Upload event:', e);
-        if (Array.isArray(e)) {
-            return e;
+
+        //if (Array.isArray(e)) {
+        //    return e;
+        //}
+        //return e && e.fileList;
+        if(e.file.status=='done'){
+            let data={
+                fileType:0,
+                loginName:username,
+                uploadName:username
+            };
+            postData(api+'/dhy/background/fileOperate/upload',data,(result)=>{
+                return;
+            });
         }
-        return e && e.fileList;
+    }
+    getData(){
+        return {
+            fileType:0,
+            loginName:username,
+            uploadName:username
+        }
     }
 }
 Announce = Form.create({})(Announce);
