@@ -31,7 +31,7 @@ const tailFormItemLayout = {
         },
     },
 };
-const username=getCookie('username');
+const username=getCookie('loginName');
 
 
 import './announce.less'

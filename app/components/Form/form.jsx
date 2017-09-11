@@ -2,7 +2,7 @@ import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import {getCookie} from  '../../util/cookie';
 import { hashHistory } from 'react-router';
-import { Form, Input, Tooltip, Upload,Button,Icon,Radio } from 'antd';
+import { Form, Input, Tooltip, Upload,Button,Icon,Radio ,DatePicker,Col } from 'antd';
 import './form.less';
 const { TextArea } = Input;
 const FormItem = Form.Item;
@@ -113,7 +113,7 @@ class UseForm extends React.Component {
                         {getFieldDecorator('isGovernmentcommissionedprojects',{
                             initialValue:'1'
                         })(
-                            <RadioGroup onChange={this.handleRadioChange.bind(this)}>
+                            <RadioGroup onChange={this.handleRadioChange.bind(this)} name="isGovernmentcommissionedprojects">
                                 <Radio value='1'>是</Radio>
                                 <Radio value='0'>否</Radio>
                             </RadioGroup>
@@ -126,7 +126,7 @@ class UseForm extends React.Component {
                         {getFieldDecorator('trainees',{
                             initialValue:'0'
                         })(
-                            <RadioGroup onChange={this.handleRadioChange.bind(this)}>
+                            <RadioGroup onChange={this.handleRadioChange.bind(this)} name="trainees">
                                 <Radio value='0'>社会人员</Radio>
                                 <Radio value='1'>本校在校生</Radio>
                             </RadioGroup>
@@ -134,12 +134,12 @@ class UseForm extends React.Component {
                     </FormItem>
                     <FormItem
                         {...formItemLayout}
-                        label="校外人员需要进入校园"
+                        label="校外人员要进入校园"
                     >
                         {getFieldDecorator('isOutofschoolpersonnelneedtoenterthecampus',{
                             initialValue:'1'
                         })(
-                            <RadioGroup onChange={this.handleRadioChange.bind(this)}>
+                            <RadioGroup onChange={this.handleRadioChange.bind(this)} name="isOutofschoolpersonnelneedtoenterthecampus">
                                 <Radio value='1'>是</Radio>
                                 <Radio value='0'>否</Radio>
                             </RadioGroup>
@@ -158,6 +158,100 @@ class UseForm extends React.Component {
                             rules: [{ required: true, message: '请输入合作单位!', whitespace: true }]
                         })(
                             <Input placeholder="必填*" name="partner"/>
+                        )}
+                    </FormItem>
+                    <FormItem
+                        {...formItemLayout}
+                        label={(
+                            <span>
+                              培训内容
+                            </span>
+                        )}
+                        hasFeedback
+                    >
+                        {getFieldDecorator('content',{})(
+                            <TextArea name="content"/>
+                        )}
+                    </FormItem>
+                    <FormItem
+                        {...formItemLayout}
+                        label="计划开始时间"
+                    >
+                        {getFieldDecorator('starttime', {
+                            rules: [{ type: 'object', required: true, message: '请选择时间！' }],
+                        })(
+                            <DatePicker name="starttime"/>
+                        )}
+                    </FormItem>
+                    <FormItem
+                        {...formItemLayout}
+                        label="计划结束时间"
+                    >
+                        {getFieldDecorator('endtime', {
+                            rules: [{ type: 'object', required: true, message: '请选择时间！' }],
+                        })(
+                            <DatePicker name="endtime"/>
+                        )}
+                    </FormItem>
+                    <FormItem
+                        {...formItemLayout}
+                        label={(
+                            <span>
+                              计划招生人数
+                            </span>
+                        )}
+                        hasFeedback
+                    >
+                        {getFieldDecorator('enrollment', {
+                            rules: [{ required: true, message: '请填写人数!', whitespace: true }]
+                        })(
+                            <Input placeholder="必填*" name="enrollment" type="number"/>
+                        )}
+                    </FormItem>
+                    <FormItem
+                        {...formItemLayout}
+                        label={(
+                            <span>
+                              培训费
+                            </span>
+                        )}
+                        hasFeedback
+                    >
+                        {getFieldDecorator('trainingexpense')(
+                            <Input placeholder="收费标准（元/人）" name="trainingexpense" type="number"/>
+                        )}
+                    </FormItem>
+                    <FormItem
+                        {...formItemLayout}
+                        label={(
+                            <span>
+                              代管费
+                            </span>
+                        )}
+                        hasFeedback
+                    >
+                        {getFieldDecorator('escrowfee')(
+                            <Input placeholder="收费标准（元/人）" name="escrowfee" type="number"/>
+                        )}
+                    </FormItem>
+                    <FormItem
+                        {...formItemLayout}
+                        label={(
+                            <span>
+                              办班单位
+                            </span>
+                        )}
+                        hasFeedback
+                    >
+                        {getFieldDecorator('escrowfee')(
+                            <Input.Group>
+                                <Col span={5}>
+                                    <Input placeholder="培训费比例" name="escrowfee" type="number"/>
+                                </Col>
+                                <Col span={5}>
+                                    <Input placeholder="培训费比例" name="escrowfee" type="number"/>人
+                                </Col>
+                            </Input.Group>
                         )}
                     </FormItem>
                 </Form>
@@ -185,9 +279,20 @@ class UseForm extends React.Component {
         return e && e.fileList;
     }
     handleRadioChange({target}){
-        this.props.form.setFieldsValue({
-            isGovernmentcommissionedprojects:target.value
-        });
+        if(target.name=='isGovernmentcommissionedprojects'){
+            this.props.form.setFieldsValue({
+                isGovernmentcommissionedprojects:target.value
+            });
+        }else if(target.name=='trainees'){
+            this.props.form.setFieldsValue({
+                trainees:target.value
+            });
+        }else if(target.name=='isOutofschoolpersonnelneedtoenterthecampus'){
+            this.props.form.setFieldsValue({
+                isOutofschoolpersonnelneedtoenterthecampus:target.value
+            });
+        }
+
     }
 }
 UseForm = Form.create({})(UseForm);

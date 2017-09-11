@@ -70,7 +70,7 @@ class Audit extends React.Component {
             pageSize
             }=this.state;
         let data={
-            supplyName:getCookie('username'),
+            supplyName:getCookie('loginName'),
             currentPage:currentPage,
             pageSize:pageSize
         };

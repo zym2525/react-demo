@@ -24,7 +24,7 @@ class ThemeInfo extends React.Component {
                     <div className="themeInfo-link">
                         <span>附件下载:</span>
                         <span className="theme-name">{themeInfo.fileName}</span>
-                        <a>点击下载</a>
+                        <a onClick={this.downLoad.bind(this,themeInfo.type,themeInfo.id)}>点击下载</a>
                     </div>
                 </div>
             </div>
@@ -40,6 +40,16 @@ class ThemeInfo extends React.Component {
                 themeInfo:result.themes[0]
             });
             console.log(result)
+        });
+    }
+    downLoad(type,id){
+        let data={
+            fileId:id,
+            fileType:type
+        };
+        postData(api+'/dhy/background/fileOperate/download',data,(result)=>{
+            console.log(result)
+
         });
     }
 }

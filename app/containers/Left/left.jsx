@@ -63,7 +63,7 @@ class Left extends React.Component {
         },()=>{
             hashHistory.push('/');
         });
-        removeCookies(['username','accountType','accountCode']);
+        removeCookies(['username','accountType','accountCode','loginName']);
     }
     componentWillMount(){
         let username= getCookie('username');
