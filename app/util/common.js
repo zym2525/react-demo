@@ -5,7 +5,7 @@
 import React from 'react';
 import Layer from 'react-layer';
 let imgUrl = require('../image/loading1.gif');
-
+//https://github.com/BruceCham/react-cli/tree/master/src
 export const api='http://120.25.247.79';
 
 //转化时间
