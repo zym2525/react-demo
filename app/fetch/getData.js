@@ -1,15 +1,14 @@
-/**
- * Created by Administrator on 2017/9/7.
- */
-import {post} from './post';
+import {get} from './get';
 import {alertLoading} from '../util/common';
-export function postData(url,data,successfn, isLoadingShow){
+
+export function getData(url,data,successfn, isLoadingShow){
     if (isLoadingShow == undefined || isLoadingShow == true) {
         var layer=alertLoading();
     }
-    let result= post(url,data);
+
+    let result= get(url+'?'+obj2params(data));
     result.then(res=>{
-       return res.text();
+        return res.text();
     }).then(text=>{
         let reData=JSON.parse(JSON.parse(text));
         if(reData.retCode==0){
@@ -17,7 +16,6 @@ export function postData(url,data,successfn, isLoadingShow){
         }else{
             alert(reData.retMsg);
         }
-       // if(oDiv) document.getElementsByTagName('body')[0].removeChild(oDiv);
         layer&&layer.destroy();
     }).catch(err=>{
         alert('出错了！请刷新页面试试~');
@@ -25,3 +23,15 @@ export function postData(url,data,successfn, isLoadingShow){
     })
 }
 
+function obj2params(obj) {
+    var result = '';
+    var item;
+    for(item in obj){
+        result += '&' + item + '=' + encodeURIComponent(obj[item])
+    }
+
+    if(result){
+        result = result.slice(1)
+    }
+    return result;
+}

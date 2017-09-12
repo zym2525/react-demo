@@ -29,7 +29,7 @@ class Left extends React.Component {
                         <span className="fl">{this.state.username}</span>
                         <b className="fl" onClick={this.logout.bind(this)}>注销</b>
                     </div>
-                    :  <h2 className="title">left</h2>
+                    :  <h2 className="title">登录</h2>
                 }
                 {
                     this.state.isLogin

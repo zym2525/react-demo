@@ -20,7 +20,6 @@ class Login extends React.Component {
             username:'',
             password:'',
             accountType:getCookie('accountType'),
-            loginName:''
         }
     }
 
@@ -147,7 +146,8 @@ class Login extends React.Component {
                 }
                 setCookies({
                     accountCode:result.accountCode,
-                    loginName:result.loginName
+                    loginName:result.loginName,
+                    accountType:result.accountType
                 });
                 return {
                     isLogin:true,

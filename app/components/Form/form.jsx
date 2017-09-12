@@ -243,16 +243,31 @@ class UseForm extends React.Component {
                         )}
                         hasFeedback
                     >
-                        {getFieldDecorator('escrowfee')(
-                            <Input.Group>
-                                <Col span={5}>
-                                    <Input placeholder="培训费比例" name="escrowfee" type="number"/>
-                                </Col>
-                                <Col span={5}>
-                                    <Input placeholder="培训费比例" name="escrowfee" type="number"/>人
-                                </Col>
-                            </Input.Group>
+                        {getFieldDecorator('unit')(
+                            <div>
+                                <Input placeholder="培训费比例" name="classunitPercentage" type="number" style={{width:'40%',display:'inline-block'}}/>%,计
+                                <Input placeholder="培训费分配" name="classunitmoney" type="number" style={{width:'40%',display:'inline-block'}}/>人
+                            </div>
                         )}
+                    </FormItem>
+                    <FormItem
+                        {...formItemLayout}
+                        label={(
+                            <span>
+                              合作单位
+                            </span>
+                        )}
+                        hasFeedback
+                    >
+                        {getFieldDecorator('partnerBox')(
+                            <div>
+                                <Input placeholder="培训费比例" name="partnerPercentage" type="number" style={{width:'40%',display:'inline-block'}}/>%,计
+                                <Input placeholder="培训费分配" name="partnermoney" type="number" style={{width:'40%',display:'inline-block'}}/>人
+                            </div>
+                        )}
+                    </FormItem>
+                    <FormItem {...tailFormItemLayout}>
+                        <Button type="primary" htmlType="submit">提交</Button>
                     </FormItem>
                 </Form>
             </div>

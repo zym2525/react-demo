@@ -2,6 +2,7 @@ import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 import {api} from '../../util/common';
 import { postData } from '../../fetch/postData';
+import { getData } from '../../fetch/getData';
 
 
 import './themeInfo.less'
@@ -24,7 +25,7 @@ class ThemeInfo extends React.Component {
                     <div className="themeInfo-link">
                         <span>附件下载:</span>
                         <span className="theme-name">{themeInfo.fileName}</span>
-                        <a onClick={this.downLoad.bind(this,themeInfo.type,themeInfo.id)}>点击下载</a>
+                        <a href={api+'/dhy/background/fileOperate/download?fileId='+themeInfo.fileId+'&fileType='+themeInfo.type} target="_bank">点击下载</a>
                     </div>
                 </div>
             </div>
@@ -42,15 +43,13 @@ class ThemeInfo extends React.Component {
             console.log(result)
         });
     }
-    downLoad(type,id){
-        let data={
-            fileId:id,
-            fileType:type
-        };
-        postData(api+'/dhy/background/fileOperate/download',data,(result)=>{
-            console.log(result)
-
-        });
-    }
+    //downLoad(type,fileId){
+    //    let data={
+    //        fileId:fileId,
+    //        fileType:type
+    //    };
+    //    postData(api+'/dhy/background/fileOperate/download',data,(result)=>{
+    //    },false);
+    //}
 }
 export default ThemeInfo
